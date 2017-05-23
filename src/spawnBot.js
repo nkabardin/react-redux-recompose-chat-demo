@@ -1,7 +1,7 @@
-import {join, changeStatus, sendMessage} from './actions'
-import {ONLINE, AWAY, PLAYING} from './chatStatuses'
+import {join, changeStatus, sendMessage} from './actions';
+import {ONLINE, AWAY, PLAYING} from './chatStatuses';
 
-const getRandomItem = (items) => items[Math.floor(Math.random() * items.length)]
+const getRandomItem = items => items[Math.floor(Math.random() * items.length)];
 
 const PHRASES = [
   'I’m sorry that I doubted you, I was so unfair. You were in a car crash, and you lost your hair.',
@@ -34,8 +34,8 @@ const PHRASES = [
   'All these places have their moments with lovers and friends, I still can recall. Some are dead and some are living in my life, I’ve loved them all.',
   'I get by with a little help from my friends.',
   'In my hour of darkness, she is standing right in front of me, speaking words of wisdom, let it be.',
-  'Yesterday, oh, my trouble seemed so far away...'
-]
+  'Yesterday, oh, my trouble seemed so far away...',
+];
 
 const REPLY_PHRASES = [
   'ok, whatever',
@@ -48,8 +48,8 @@ const REPLY_PHRASES = [
   'that’s it?',
   'whatever',
   'you are amazing!',
-  'are you sure?'
-]
+  'are you sure?',
+];
 
 const GAMES = [
   'guitar',
@@ -59,47 +59,56 @@ const GAMES = [
   'clavioline',
   'synthesizer',
   'organ',
-]
+];
 
-const doWithRandomTimeout = (action) =>
- setTimeout(action, 5000 + Math.random() * 30000)
+const doWithRandomTimeout = action =>
+  setTimeout(action, 5000 + Math.random() * 30000);
 
 const statuses = [
   () => ({type: ONLINE}),
   () => ({type: AWAY}),
-  () => ({type: PLAYING, game: getRandomItem(GAMES)})
-]
+  () => ({type: PLAYING, game: getRandomItem(GAMES)}),
+];
 
 const randomAction = (store, botName) => {
   if (Math.random() > 0.6) {
-    store.dispatch(changeStatus(botName, getRandomItem(statuses)()))
+    store.dispatch(changeStatus(botName, getRandomItem(statuses)()));
   } else {
-    store.dispatch(sendMessage(botName, getRandomItem(PHRASES)))
+    store.dispatch(sendMessage(botName, getRandomItem(PHRASES)));
   }
-  doWithRandomTimeout(() => randomAction(store, botName))
-}
+  doWithRandomTimeout(() => randomAction(store, botName));
+};
 
 const reactToMessage = (store, botName, message) => {
   if (!message.isSystem && message.sender !== botName) {
     if (message.text.indexOf(botName) > -1) {
-      store.dispatch(sendMessage(botName, `@${message.sender}, ${getRandomItem(REPLY_PHRASES)}`))
+      store.dispatch(
+        sendMessage(
+          botName,
+          `@${message.sender}, ${getRandomItem(REPLY_PHRASES)}`,
+        ),
+      );
     }
   }
-}
+};
 
 export default (store, botName) => {
   let lastProcessedTimestamp = 0;
 
-  store.dispatch(join(botName))
+  store.dispatch(join(botName));
   store.subscribe(() => {
     const state = store.getState();
-    const messagesToProcess = state.messages
-      .filter((message) => message.timestamp > lastProcessedTimestamp)
+    const messagesToProcess = state.messages.filter(
+      message => message.timestamp > lastProcessedTimestamp,
+    );
 
-    lastProcessedTimestamp = state.messages[state.messages.length - 1].timestamp;
+    lastProcessedTimestamp = state.messages[
+      state.messages.length - 1
+    ].timestamp;
 
-    messagesToProcess.forEach((message) => reactToMessage(store, botName, message))
-  })
+    messagesToProcess.forEach(message =>
+      reactToMessage(store, botName, message));
+  });
 
-  doWithRandomTimeout(() => randomAction(store, botName))
-}
+  doWithRandomTimeout(() => randomAction(store, botName));
+};

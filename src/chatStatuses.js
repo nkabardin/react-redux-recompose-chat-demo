@@ -1,3 +1,3 @@
-export const ONLINE = 'ONLINE'
-export const AWAY = 'AWAY'
-export const PLAYING = 'playing'
+export const ONLINE = 'ONLINE';
+export const AWAY = 'AWAY';
+export const PLAYING = 'playing';

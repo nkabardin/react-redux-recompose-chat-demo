@@ -3,9 +3,9 @@ import {
   SEND_MESSAGE,
   JOIN,
   CHANGE_STATUS,
-  MENTION
-} from './actionTypes'
-import {ONLINE, AWAY, PLAYING} from './chatStatuses'
+  MENTION,
+} from './actionTypes';
+import {ONLINE, AWAY, PLAYING} from './chatStatuses';
 
 const INITIAL_STATE = {
   user: 'GeorgeMartin',
@@ -15,33 +15,33 @@ const INITIAL_STATE = {
     {
       name: 'GeorgeMartin',
       status: {type: ONLINE},
-    }
-  ]
-}
+    },
+  ],
+};
 
-const getTimestamp = () => (new Date()).getTime();
+const getTimestamp = () => new Date().getTime();
 
 const getStatusChangeMessageText = (prevStatus, newStatus) => {
   if (prevStatus.type !== newStatus.type) {
     if (newStatus.type === PLAYING) {
-      return `started playing ${newStatus.game}`
+      return `started playing ${newStatus.game}`;
     }
 
     if (prevStatus.type === PLAYING) {
-      return `finished playing ${prevStatus.game}`
+      return `finished playing ${prevStatus.game}`;
     }
 
     if (newStatus.type === AWAY) {
-      return 'went away'
+      return 'went away';
     }
 
     if (newStatus.type === ONLINE) {
-      return 'went back'
+      return 'went back';
     }
   }
 
   return null;
-}
+};
 
 const getStatusChangeMessage = (user, newStatus) => {
   const text = getStatusChangeMessageText(user.status, newStatus);
@@ -51,20 +51,20 @@ const getStatusChangeMessage = (user, newStatus) => {
       sender: user.name,
       timestamp: getTimestamp(),
       isSystem: true,
-      text
-    }
+      text,
+    };
   }
 
-  return null
-}
+  return null;
+};
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case ENTER_MESSAGE:
       return {
         ...state,
-        textEntered: action.payload
-      }
+        textEntered: action.payload,
+      };
     case SEND_MESSAGE:
       const sender = action.payload.user || state.user;
       return {
@@ -74,11 +74,11 @@ export default (state = INITIAL_STATE, action) => {
           {
             text: action.payload.text,
             timestamp: getTimestamp(),
-            sender
-          }
+            sender,
+          },
         ],
-        textEntered: sender === state.user ? '' : state.textEntered
-      }
+        textEntered: sender === state.user ? '' : state.textEntered,
+      };
     case JOIN:
       return {
         ...state,
@@ -86,47 +86,47 @@ export default (state = INITIAL_STATE, action) => {
           ...state.users,
           {
             name: action.payload,
-            status: {type: ONLINE}
-          }
+            status: {type: ONLINE},
+          },
         ],
         messages: [
           ...state.messages,
           {
             sender: action.payload,
-            text: "entered the chat",
+            text: 'entered the chat',
             timestamp: getTimestamp(),
-            isSystem: true
-          }
-        ]
-      }
+            isSystem: true,
+          },
+        ],
+      };
     case CHANGE_STATUS:
       return {
         ...state,
-        users: state.users.map((user) => {
+        users: state.users.map(user => {
           if (user.name === action.payload.name) {
             return {
               ...user,
-              status: action.payload.status
-            }
+              status: action.payload.status,
+            };
           }
           return user;
         }),
         messages: [
           ...state.messages,
           getStatusChangeMessage(
-            state.users.find((user) => user.name === action.payload.name),
-            action.payload.status
-          )
-        ].filter((message) => message !== null)
-      }
+            state.users.find(user => user.name === action.payload.name),
+            action.payload.status,
+          ),
+        ].filter(message => message !== null),
+      };
     case MENTION:
-      const existingText = state.textEntered.trim()
-      const separator = existingText.length > 0 ? ' ' : ''
+      const existingText = state.textEntered.trim();
+      const separator = existingText.length > 0 ? ' ' : '';
       return {
         ...state,
-        textEntered: `${existingText}${separator}@${action.payload}, `
-      }
+        textEntered: `${existingText}${separator}@${action.payload}, `,
+      };
     default:
-      return state
+      return state;
   }
-}
+};
