@@ -16,10 +16,11 @@
   align-items: top;
   font-size: 12px;
   line-height: 25px;
+  transition: opacity 500ms;
 }
 
 .Messages-message.is-system {
-  opacity: 0.7;
+  color: #7B7F80;
 }
 
 .Messages-sender {
@@ -34,4 +35,12 @@
 
 .Messages-text {
   flex-grow: 1;
+}
+
+.Messages-transition-enter {
+  opacity: 0.01;
+}
+
+.Messages-transition-enter.Messages-transition-enter-active {
+  opacity: 1;
 }

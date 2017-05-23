@@ -9,6 +9,8 @@ const Users = ({users, onUserClick}) => (
         <div className="Users-user" key={name} onClick={onUserClick(name)}>
           <div className={`Users-status is-${status.type.toLowerCase()}`} />
           <div className="Users-name">{name}</div>
+          {status.game &&
+            <div className="Users-game">playing {status.game}</div>}
         </div>
       ))}
     </div>

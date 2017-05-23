@@ -49,7 +49,7 @@ export default compose(
       onSubmit: ({onSend}) =>
         e => {
           e.preventDefault();
-          onSend();
+          setTimeout(onSend, 1);
           return false;
         },
       onInputRef: () => ref => inputRef = ref,
