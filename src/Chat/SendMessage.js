@@ -1,5 +1,6 @@
 import React from 'react';
-import {compose, withHandlers} from 'recompose';
+import PropTypes from 'prop-types';
+import {compose, withHandlers, setPropTypes} from 'recompose';
 import './SendMessage.css';
 
 const SendMessage = (
@@ -60,5 +61,15 @@ export default compose(
           }
         },
     };
+  }),
+  setPropTypes({
+    user: PropTypes.string.isRequired,
+    textEntered: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    onInputRef: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    onEnter: PropTypes.func.isRequired,
+    onSend: PropTypes.func.isRequired,
   }),
 )(SendMessage);

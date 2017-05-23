@@ -1,10 +1,11 @@
 import React from 'react';
-import {compose, lifecycle, withHandlers} from 'recompose';
+import PropTypes from 'prop-types';
+import {compose, lifecycle, withHandlers, setPropTypes} from 'recompose';
 import classNames from 'classnames';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import './Messages.css';
 
-const Messages = ({messages, onRef, onMention, onUserClick}) => (
+const Messages = ({messages, onRef, onUserClick}) => (
   <div className="Messages" ref={onRef}>
     <div className="Messages-items">
       <CSSTransitionGroup
@@ -31,7 +32,6 @@ const Messages = ({messages, onRef, onMention, onUserClick}) => (
 export default compose(
   withHandlers(() => {
     let ref;
-
     return {
       onRef: () => element => ref = element,
       onUpdate: () =>
@@ -47,5 +47,18 @@ export default compose(
     componentDidUpdate: function() {
       this.props.onUpdate();
     },
+  }),
+  setPropTypes({
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        sender: PropTypes.string.isRequired,
+        timestamp: PropTypes.number.isRequired,
+        isSystem: PropTypes.bool,
+      }),
+    ),
+    onRef: PropTypes.func.isRequired,
+    onMention: PropTypes.func.isRequired,
+    onUserClick: PropTypes.func.isRequired,
   }),
 )(Messages);

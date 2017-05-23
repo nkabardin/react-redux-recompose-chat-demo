@@ -1,5 +1,6 @@
 import React from 'react';
-import {compose, withHandlers} from 'recompose';
+import PropTypes from 'prop-types';
+import {compose, withHandlers, setPropTypes} from 'recompose';
 import {connect} from 'react-redux';
 import Users from './Users';
 import Messages from './Messages';
@@ -44,5 +45,30 @@ export default compose(
         if (text.length > 0) dispatch(sendMessage(user, textEntered));
       },
     onMention: ({dispatch}) => userName => dispatch(mention(userName)),
+  }),
+  setPropTypes({
+    dispatch: PropTypes.func.isRequired,
+    user: PropTypes.string.isRequired,
+    messages: PropTypes.arrayOf(
+      PropTypes.shape({
+        text: PropTypes.string.isRequired,
+        sender: PropTypes.string.isRequired,
+        timestamp: PropTypes.number.isRequired,
+        isSystem: PropTypes.bool,
+      }),
+    ),
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        status: PropTypes.shape({
+          type: PropTypes.string.isRequired,
+          game: PropTypes.string,
+        }),
+      }),
+    ),
+    textEntered: PropTypes.string.isRequired,
+    onEnter: PropTypes.func.isRequired,
+    onSend: PropTypes.func.isRequired,
+    onMention: PropTypes.func.isRequired,
   }),
 )(Chat);

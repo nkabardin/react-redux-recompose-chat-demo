@@ -1,5 +1,6 @@
 import React from 'react';
-import {compose, withHandlers} from 'recompose';
+import PropTypes from 'prop-types';
+import {compose, withHandlers, setPropTypes} from 'recompose';
 import './Users.css';
 
 const Users = ({users, onUserClick}) => (
@@ -20,5 +21,18 @@ const Users = ({users, onUserClick}) => (
 export default compose(
   withHandlers({
     onUserClick: ({onMention}) => userName => () => onMention(userName),
+  }),
+  setPropTypes({
+    onMention: PropTypes.func.isRequired,
+    users: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        status: PropTypes.shape({
+          type: PropTypes.string.isRequired,
+          game: PropTypes.string,
+        }),
+      }),
+    ),
+    onUserClick: PropTypes.func.isRequired,
   }),
 )(Users);
