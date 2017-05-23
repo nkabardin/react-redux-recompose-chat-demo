@@ -1,6 +1,9 @@
 import {join, changeStatus, sendMessage} from './actions'
+import {ONLINE, AWAY, PLAYING} from './chatStatuses'
 
-const phrases = [
+const getRandomItem = (items) => items[Math.floor(Math.random() * items.length)]
+
+const PHRASES = [
   'I’m sorry that I doubted you, I was so unfair. You were in a car crash, and you lost your hair.',
   'Little child, little child, won’t you come dance with me? I’m so sad and lonely, baby take a chance with me. ',
   'And in the end, the love you take is equal to the love you make',
@@ -34,13 +37,31 @@ const phrases = [
   'Yesterday, oh, my trouble seemed so far away...'
 ]
 
-const getRandomPhrase = () => phrases[Math.floor(Math.random() * phrases.length)]
+const GAMES = [
+  'guitar',
+  'bass',
+  'drums',
+  'piano',
+  'clavioline',
+  'synthesizer',
+  'organ',
+]
 
 const doWithRandomTimeout = (action) =>
  setTimeout(action, 5000 + Math.random() * 30000)
 
+const statuses = [
+  () => ({type: ONLINE}),
+  () => ({type: AWAY}),
+  () => ({type: PLAYING, game: getRandomItem(GAMES)})
+]
+
 const randomAction = (store, botName) => {
-  store.dispatch(sendMessage(botName, getRandomPhrase()))
+  if (Math.random() > 0.6) {
+    store.dispatch(changeStatus(botName, getRandomItem(statuses)()))
+  } else {
+    store.dispatch(sendMessage(botName, getRandomItem(PHRASES)))
+  }
   doWithRandomTimeout(() => randomAction(store, botName))
 }
 
