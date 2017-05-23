@@ -16,6 +16,7 @@ const SendMessage = ({user, textEntered, onChange, onSubmit}) => (
           autoCorrect='off'
           autoCapitalize='off'
           spellCheck='false'
+          autoFocus
           onChange={onChange} />
       </div>
       <div className='SendMessage-submit_container'>
