@@ -1,8 +1,10 @@
-import React from 'react';
-import Users from './Users';
-import Messages from './Messages';
-import SendMessage from './SendMessage';
-import './Chat.css';
+import React from 'react'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import Users from './Users'
+import Messages from './Messages'
+import SendMessage from './SendMessage'
+import './Chat.css'
 
 const Chat = ({ user, messages, users, textEntered }) => (
   <div className="Chat">
@@ -14,6 +16,8 @@ const Chat = ({ user, messages, users, textEntered }) => (
       <Users users={users} />
     </div>
   </div>
-);
+)
 
-export default Chat;
+export default compose(
+  connect((state) => state.chat)
+)(Chat)

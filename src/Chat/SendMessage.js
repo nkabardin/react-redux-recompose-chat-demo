@@ -1,5 +1,5 @@
-import React from 'react';
-import './SendMessage.css';
+import React from 'react'
+import './SendMessage.css'
 
 const SendMessage = ({user, textEntered}) => (
   <div className='SendMessage'>
@@ -20,4 +20,4 @@ const SendMessage = ({user, textEntered}) => (
   </div>
 )
 
-export default SendMessage;
+export default SendMessage

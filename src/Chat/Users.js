@@ -1,5 +1,5 @@
-import React from 'react';
-import './Users.css';
+import React from 'react'
+import './Users.css'
 
 const Users = ({users}) => (
   <div className='Users'>
@@ -12,4 +12,4 @@ const Users = ({users}) => (
   </div>
 )
 
-export default Users;
+export default Users

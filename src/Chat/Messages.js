@@ -1,5 +1,5 @@
-import React from 'react';
-import './Messages.css';
+import React from 'react'
+import './Messages.css'
 
 const Messages = ({ messages }) => (
   <div className='Messages'>
@@ -12,4 +12,4 @@ const Messages = ({ messages }) => (
   </div>
 )
 
-export default Messages;
+export default Messages
