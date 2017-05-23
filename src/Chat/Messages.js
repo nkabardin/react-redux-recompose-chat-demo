@@ -1,8 +1,8 @@
 import React from 'react'
 import './Messages.css'
 
-const Messages = ({ messages }) => (
-  <div className='Messages'>
+const Messages = ({ messages, onContainerRef }) => (
+  <div className='Messages' ref={onContainerRef}>
     <div className='Messages-items'>
       {messages.map(({sender, text, timestamp}) => (
         <div className='Messages-message' key={`${sender}_${timestamp}`}>

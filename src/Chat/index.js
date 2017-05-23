@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import { connect } from 'react-redux'
 import Users from './Users'
 import Messages from './Messages'
@@ -7,15 +7,15 @@ import SendMessage from './SendMessage'
 import { enterMessage, sendMessage } from '../actions/chat'
 import './Chat.css'
 
-const Chat = ({ dispatch, user, messages, users, textEntered }) => (
+const Chat = ({ user, messages, users, textEntered, onMessagesRef, onEnter, onSend }) => (
   <div className="Chat">
     <div className="Chat-body">
-      <Messages messages={messages} />
+      <Messages messages={messages} onContainerRef={onMessagesRef} />
       <SendMessage
         user={user}
         textEntered={textEntered}
-        onEnter={(text) => dispatch(enterMessage(text))}
-        onSend={() => dispatch(sendMessage())}
+        onEnter={onEnter}
+        onSend={onSend}
       />
     </div>
     <div className="Chat-sidebar">
@@ -25,5 +25,26 @@ const Chat = ({ dispatch, user, messages, users, textEntered }) => (
 )
 
 export default compose(
-  connect((state) => state.chat)
+  connect((state) => state.chat),
+  withHandlers(({dispatch}) => {
+    let messagesRef
+
+    return {
+      onMessagesRef: () => (ref) => {
+        messagesRef = ref
+      },
+      onEnter: () => (text) => {
+        dispatch(enterMessage(text))
+      },
+      onSend: () => () => {
+        if (messagesRef) {
+          setTimeout(() => {
+            messagesRef.scrollTop = messagesRef.scrollHeight;
+          }, 0)
+        }
+
+        dispatch(sendMessage())
+      }
+    }
+  })
 )(Chat)
