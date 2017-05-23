@@ -29,6 +29,7 @@
   padding-right: 15px;
   color: #C2C1C2;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .Messages-text {

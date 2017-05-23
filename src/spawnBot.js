@@ -37,6 +37,20 @@ const PHRASES = [
   'Yesterday, oh, my trouble seemed so far away...'
 ]
 
+const REPLY_PHRASES = [
+  'ok, whatever',
+  'no, I don’t think so',
+  'yes, great idea',
+  'what the hell..?',
+  'well, you should think twice, alright?',
+  'tune in, turn on, drop out :D',
+  'say that to Timothy Leary when you’ll see him next time, deal?',
+  'that’s it?',
+  'whatever',
+  'you are amazing!',
+  'are you sure?'
+]
+
 const GAMES = [
   'guitar',
   'bass',
@@ -65,7 +79,27 @@ const randomAction = (store, botName) => {
   doWithRandomTimeout(() => randomAction(store, botName))
 }
 
+const reactToMessage = (store, botName, message) => {
+  if (!message.isSystem && message.sender !== botName) {
+    if (message.text.indexOf(botName) > -1) {
+      store.dispatch(sendMessage(botName, `@${message.sender}, ${getRandomItem(REPLY_PHRASES)}`))
+    }
+  }
+}
+
 export default (store, botName) => {
+  let lastProcessedTimestamp = 0;
+
   store.dispatch(join(botName))
+  store.subscribe(() => {
+    const state = store.getState();
+    const messagesToProcess = state.messages
+      .filter((message) => message.timestamp > lastProcessedTimestamp)
+
+    lastProcessedTimestamp = state.messages[state.messages.length - 1].timestamp;
+
+    messagesToProcess.forEach((message) => reactToMessage(store, botName, message))
+  })
+
   doWithRandomTimeout(() => randomAction(store, botName))
 }

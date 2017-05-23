@@ -1,11 +1,12 @@
 import React from 'react'
+import {compose, withHandlers} from 'recompose'
 import './Users.css'
 
-const Users = ({users}) => (
+const Users = ({users, onUserClick}) => (
   <div className='Users'>
     <div className='Users-items'>
       {users.map(({name, status}) => (
-        <div className='Users-user' key={name}>
+        <div className='Users-user' key={name} onClick={onUserClick(name)}>
           <div className={`Users-status is-${status.type.toLowerCase()}`} />
           <div className='Users-name'>{name}</div>
         </div>
@@ -14,4 +15,8 @@ const Users = ({users}) => (
   </div>
 )
 
-export default Users
+export default compose(
+  withHandlers({
+    onUserClick: ({onMention}) => userName => () => onMention(userName)
+  })
+)(Users)

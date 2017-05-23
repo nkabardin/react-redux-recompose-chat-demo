@@ -2,17 +2,18 @@ import {
   ENTER_MESSAGE,
   SEND_MESSAGE,
   JOIN,
-  CHANGE_STATUS
+  CHANGE_STATUS,
+  MENTION
 } from './actionTypes'
 import {ONLINE, AWAY, PLAYING} from './chatStatuses'
 
 const INITIAL_STATE = {
-  user: "GeorgeMartin",
+  user: 'GeorgeMartin',
   messages: [],
-  textEntered: "",
+  textEntered: '',
   users: [
     {
-      name: "GeorgeMartin",
+      name: 'GeorgeMartin',
       status: {type: ONLINE},
     }
   ]
@@ -65,17 +66,18 @@ export default (state = INITIAL_STATE, action) => {
         textEntered: action.payload
       }
     case SEND_MESSAGE:
+      const sender = action.payload.user || state.user;
       return {
         ...state,
         messages: [
           ...state.messages,
           {
-            sender: action.payload.user || state.user,
             text: action.payload.text,
-            timestamp: getTimestamp()
+            timestamp: getTimestamp(),
+            sender
           }
         ],
-        textEntered: ''
+        textEntered: sender === state.user ? '' : state.textEntered
       }
     case JOIN:
       return {
@@ -116,6 +118,13 @@ export default (state = INITIAL_STATE, action) => {
             action.payload.status
           )
         ].filter((message) => message !== null)
+      }
+    case MENTION:
+      const existingText = state.textEntered.trim()
+      const separator = existingText.length > 0 ? ' ' : ''
+      return {
+        ...state,
+        textEntered: `${existingText}${separator}@${action.payload}, `
       }
     default:
       return state
