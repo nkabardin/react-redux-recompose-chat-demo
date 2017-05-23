@@ -1,19 +1,47 @@
 .SendMessage {
-
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  min-height: 65px;
+  flex-shrink: 0;
 }
 
 .SendMessage-user {
-
+  padding: 0 15px 0 20px;
+  font-size: 14px;
 }
 
 .SendMessage-form {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
 
+.SendMessage-input_container {
+  flex-grow: 1;
 }
 
 .SendMessage-input {
-  
+  width: 100%;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 10px;
+  height: 35px;
+  background: black;
+  border: 2px solid #C2C1C2;
+  color: #C2C1C2;
+  outline: none;
+  padding: 0 10px;
+}
+
+.SendMessage-submit_container {
+  padding: 0 5px;
 }
 
 .SendMessage-submit {
-
+  font-family: 'Press Start 2P', sans-serif;
+  height: 35px;
+  background-color: #C2C1C2;
+  border: none;
+  outline: none;
+  cursor: pointer;
 }

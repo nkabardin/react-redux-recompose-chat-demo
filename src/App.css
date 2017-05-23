@@ -1,0 +1,21 @@
+.App {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: black;
+  color: white;
+}
+
+.App-chat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  max-width: 1000px;
+  max-height: 700px;
+  border: 1px solid black;
+}

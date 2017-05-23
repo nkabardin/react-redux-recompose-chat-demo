@@ -1,15 +1,31 @@
 .Messages {
+  flex-grow: 1;
+  overflow-y: auto;
+}
 
+.Messages-items {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .Messages-message {
-
+  padding: 0 20px;
+  margin: 5px 0;
+  display: flex;
+  align-items: top;
+  font-size: 12px;
+  line-height: 25px;
 }
 
 .Messages-sender {
-
+  min-width: 120px;
+  font-size: 12px;
+  text-align: right;
+  padding-right: 15px;
+  color: #C2C1C2;
 }
 
 .Messages-text {
-
+  flex-grow: 1;
 }
