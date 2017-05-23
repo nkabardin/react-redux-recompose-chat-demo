@@ -1,17 +1,22 @@
 import React from 'react'
+import { compose, withHandlers } from 'recompose'
 import './SendMessage.css'
 
-const SendMessage = ({user, textEntered}) => (
+const SendMessage = ({user, textEntered, onChange, onSubmit}) => (
   <div className='SendMessage'>
     <div className='SendMessage-user'>{user}</div>
-    <form className='SendMessage-form'>
+    <form className='SendMessage-form' onSubmit={onSubmit}>
       <div className='SendMessage-input_container'>
         <input
           type='text'
           name='text'
           value={textEntered}
           className='SendMessage-input'
-          autoComplete='off' />
+          autoComplete='off'
+          autoCorrect='off'
+          autoCapitalize='off'
+          spellCheck='false'
+          onChange={onChange} />
       </div>
       <div className='SendMessage-submit_container'>
         <button
@@ -26,4 +31,13 @@ const SendMessage = ({user, textEntered}) => (
   </div>
 )
 
-export default SendMessage
+export default compose(
+  withHandlers({
+    onChange: ({onEnter}) => e => onEnter(e.target.value),
+    onSubmit: ({onSend}) => e => {
+      e.preventDefault()
+      onSend()
+      return false
+    }
+  })
+)(SendMessage)

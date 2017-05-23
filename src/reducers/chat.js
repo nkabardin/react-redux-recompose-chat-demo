@@ -1,3 +1,5 @@
+import {ENTER_MESSAGE, SEND_MESSAGE} from '../actionTypes'
+
 const STATUS = {
   ONLINE: "online",
   AWAY: "away",
@@ -197,4 +199,25 @@ const DEFAULT_STATE = {
 }
 
 
-export default (state = DEFAULT_STATE, action) => state
+export default (state = DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case ENTER_MESSAGE:
+      return Object.assign({}, state, {
+        textEntered: action.payload
+      })
+    case SEND_MESSAGE:
+      return Object.assign({}, state, {
+        messages: [
+          ...state.messages,
+          {
+            sender: state.user,
+            text: state.textEntered,
+            timestamp: (new Date()).getTime()
+          }
+        ],
+        textEntered: ''
+      })
+    default:
+      return state
+  }
+}
