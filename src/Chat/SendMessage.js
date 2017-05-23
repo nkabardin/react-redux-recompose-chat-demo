@@ -2,7 +2,14 @@ import React from 'react'
 import { compose, withHandlers } from 'recompose'
 import './SendMessage.css'
 
-const SendMessage = ({user, textEntered, onChange, onSubmit}) => (
+const SendMessage = ({
+  user,
+  textEntered,
+  onChange,
+  onSubmit,
+  onInputRef,
+  onBlur
+}) => (
   <div className='SendMessage'>
     <div className='SendMessage-user'>{user}</div>
     <form className='SendMessage-form' onSubmit={onSubmit}>
@@ -17,7 +24,10 @@ const SendMessage = ({user, textEntered, onChange, onSubmit}) => (
           autoCapitalize='off'
           spellCheck='false'
           autoFocus
-          onChange={onChange} />
+          onChange={onChange}
+          ref={onInputRef}
+          onBlur={onBlur}
+        />
       </div>
       <div className='SendMessage-submit_container'>
         <button
@@ -33,12 +43,21 @@ const SendMessage = ({user, textEntered, onChange, onSubmit}) => (
 )
 
 export default compose(
-  withHandlers({
-    onChange: ({onEnter}) => e => onEnter(e.target.value),
-    onSubmit: ({onSend}) => e => {
-      e.preventDefault()
-      onSend()
-      return false
-    }
-  })
+  withHandlers(() => {
+    let inputRef;
+
+    return {
+      onChange: ({onEnter}) => e => onEnter(e.target.value),
+      onSubmit: ({onSend}) => e => {
+        e.preventDefault()
+        onSend()
+        return false
+      },
+      onInputRef: () => ref => inputRef = ref,
+      onBlur: () => () => {
+        if (inputRef) {
+          setTimeout(() => inputRef.focus(), 0)
+        }
+      }
+  }})
 )(SendMessage)
