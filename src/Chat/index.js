@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import Users from './Users'
 import Messages from './Messages'
 import SendMessage from './SendMessage'
-import { enterMessage, sendMessage } from '../actions/chat'
+import { enterMessage, sendMessage } from '../actions'
 import './Chat.css'
 
 const Chat = ({ user, messages, users, textEntered, onMessagesRef, onEnter, onSend }) => (
@@ -25,26 +25,11 @@ const Chat = ({ user, messages, users, textEntered, onMessagesRef, onEnter, onSe
 )
 
 export default compose(
-  connect((state) => state.chat),
-  withHandlers(({dispatch}) => {
-    let messagesRef
-
-    return {
-      onMessagesRef: () => (ref) => {
-        messagesRef = ref
-      },
-      onEnter: () => (text) => {
-        dispatch(enterMessage(text))
-      },
-      onSend: () => () => {
-        if (messagesRef) {
-          setTimeout(() => {
-            messagesRef.scrollTop = messagesRef.scrollHeight;
-          }, 0)
-        }
-
-        dispatch(sendMessage())
-      }
-    }
+  connect(state => state),
+  withHandlers({
+      onEnter: ({dispatch}) => (text) =>
+        dispatch(enterMessage(text)),
+      onSend: ({dispatch, user, textEntered}) => () =>
+        dispatch(sendMessage(user, textEntered))
   })
 )(Chat)

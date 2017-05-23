@@ -3,7 +3,7 @@
 }
 
 .Users-user {
-  margin: 10px 0;
+  margin: 10px 0 0 10px;
 }
 
 .Users-status {
@@ -32,4 +32,5 @@
 .Users-name {
   display: inline-block;
   vertical-align: middle;
+  font-size: 12px;
 }

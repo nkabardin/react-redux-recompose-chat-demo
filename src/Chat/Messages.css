@@ -18,12 +18,17 @@
   line-height: 25px;
 }
 
+.Messages-message.is-system {
+  opacity: 0.7;
+}
+
 .Messages-sender {
-  min-width: 120px;
-  font-size: 12px;
+  min-width: 170px;
+  font-size: 10px;
   text-align: right;
   padding-right: 15px;
   color: #C2C1C2;
+  flex-shrink: 0;
 }
 
 .Messages-text {
