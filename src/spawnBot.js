@@ -61,8 +61,8 @@ const GAMES = [
   'organ',
 ];
 
-const doWithRandomTimeout = action =>
-  setTimeout(action, 5000 + Math.random() * 30000);
+const doWithRandomTimeout = (action, basis = 30000) =>
+  setTimeout(action, basis / 6 + Math.random() * basis);
 
 const statuses = [
   () => ({type: ONLINE}),
@@ -82,11 +82,15 @@ const randomAction = (store, botName) => {
 const reactToMessage = (store, botName, message) => {
   if (!message.isSystem && message.sender !== botName) {
     if (message.text.indexOf(botName) > -1) {
-      store.dispatch(
-        sendMessage(
-          botName,
-          `@${message.sender}, ${getRandomItem(REPLY_PHRASES)}`,
-        ),
+      doWithRandomTimeout(
+        () =>
+          store.dispatch(
+            sendMessage(
+              botName,
+              `@${message.sender}, ${getRandomItem(REPLY_PHRASES)}`,
+            ),
+          ),
+        3500,
       );
     }
   }
