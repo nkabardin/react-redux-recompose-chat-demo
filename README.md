@@ -6,7 +6,7 @@ You play as a George Martin, Beatles producer and you have the whole band around
 
 [Try it!](https://nkabardin.github.io/react-redux-recompose-chat-demo/)
 
-[![Screenshot](https://github.com/nkabardin/react-redux-recompose-chat-demo/blob/master/screenshot.png?raw=true)](http://nikita.kabardin.com/react-redux-recompose-chat-demo/)
+[![Screenshot](https://github.com/nkabardin/react-redux-recompose-chat-demo/blob/master/screenshot.png?raw=true)](https://nkabardin.github.io/react-redux-recompose-chat-demo/)
 
 # Build and run
 
