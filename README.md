@@ -4,7 +4,7 @@ This is just a demonstration of what you can easily do with awesome yet simple s
 
 You play as a George Martin, Beatles producer and you have the whole band around you — John, George, Paul and Ringo who are constantly goofing around, talking to each other, starting playing various instruments and answering your questions.
 
-[Try it!](http://nikita.kabardin.com/react-redux-recompose-chat-demo/)
+[Try it!](https://nkabardin.github.io/react-redux-recompose-chat-demo/)
 
 [![Screenshot](https://github.com/nkabardin/react-redux-recompose-chat-demo/blob/master/screenshot.png?raw=true)](http://nikita.kabardin.com/react-redux-recompose-chat-demo/)
 
